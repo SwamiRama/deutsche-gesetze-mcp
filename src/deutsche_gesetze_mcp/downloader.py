@@ -32,7 +32,9 @@ async def fetch_toc(client: httpx.AsyncClient) -> list[LawEntry]:
         link = (link_el.text or "").strip()
         if not link:
             continue
-        slug = link.rstrip("/").split("/")[-1]
+        # Link format: http://www.gesetze-im-internet.de/{slug}/xml.zip
+        parts = link.rstrip("/").split("/")
+        slug = parts[-2] if len(parts) >= 2 and parts[-1] == "xml.zip" else parts[-1]
         entries.append(LawEntry(slug=slug, title=title, url=link))
 
     logger.info("toc_fetched", count=len(entries))
@@ -46,7 +48,7 @@ async def download_law_zip(
     semaphore: asyncio.Semaphore,
 ) -> Path | None:
     async with semaphore:
-        url = f"https://www.gesetze-im-internet.de/{entry.slug}/xml.zip"
+        url = entry.url if entry.url.endswith(".zip") else f"https://www.gesetze-im-internet.de/{entry.slug}/xml.zip"
         try:
             resp = await client.get(url)
             resp.raise_for_status()

@@ -2,14 +2,14 @@
 <items>
   <item>
     <title>Bürgerliches Gesetzbuch</title>
-    <link>https://www.gesetze-im-internet.de/bgb/</link>
+    <link>http://www.gesetze-im-internet.de/bgb/xml.zip</link>
   </item>
   <item>
     <title>Grundgesetz für die Bundesrepublik Deutschland</title>
-    <link>https://www.gesetze-im-internet.de/gg/</link>
+    <link>http://www.gesetze-im-internet.de/gg/xml.zip</link>
   </item>
   <item>
     <title>Strafgesetzbuch</title>
-    <link>https://www.gesetze-im-internet.de/stgb/</link>
+    <link>http://www.gesetze-im-internet.de/stgb/xml.zip</link>
   </item>
 </items>
