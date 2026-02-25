@@ -4,7 +4,7 @@
     <metadaten>
       <jurabk>BGB</jurabk>
       <langue>Bürgerliches Gesetzbuch</langue>
-      <ausfertigung-datum manuell="1896-08-18">18.08.1896</ausfertigung-datum>
+      <ausfertigung-datum manuell="ja">1896-08-18</ausfertigung-datum>
     </metadaten>
     <textdaten/>
   </norm>

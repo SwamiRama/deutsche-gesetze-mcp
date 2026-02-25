@@ -76,7 +76,7 @@ def parse_law_xml(xml_path: Path, slug: str) -> ParsedLaw:
 
         ausfertigung = meta.find("ausfertigung-datum")
         if ausfertigung is not None:
-            enactment_date = ausfertigung.get("manuell", "") or (ausfertigung.text or "").strip()
+            enactment_date = (ausfertigung.text or "").strip()
 
     parsed_norms: list[Norm] = []
 
