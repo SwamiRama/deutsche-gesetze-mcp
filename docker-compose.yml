@@ -1,0 +1,20 @@
+services:
+  gesetze-mcp:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: gesetze-mcp
+    ports:
+      - "8000:8000"
+    volumes:
+      - gesetze-data:/data
+    environment:
+      - GESETZE_HOST=0.0.0.0
+      - GESETZE_PORT=8000
+      - GESETZE_AUTH_TOKEN=${GESETZE_AUTH_TOKEN:-}
+      - GESETZE_LOG_FORMAT=json
+      - GESETZE_LOG_LEVEL=INFO
+    restart: unless-stopped
+
+volumes:
+  gesetze-data:

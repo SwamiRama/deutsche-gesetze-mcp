@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dokumente builddate="20260101120000" doknr="BJNR000010949">
+  <norm builddate="20260101120000" doknr="BJNR000010949">
+    <metadaten>
+      <jurabk>GG</jurabk>
+      <langue>Grundgesetz für die Bundesrepublik Deutschland</langue>
+      <ausfertigung-datum manuell="1949-05-23">23.05.1949</ausfertigung-datum>
+    </metadaten>
+    <textdaten/>
+  </norm>
+  <norm builddate="20260101120000" doknr="BJNR000010949BJNE000100314">
+    <metadaten>
+      <jurabk>GG</jurabk>
+      <enbez>Art 1</enbez>
+      <titel/>
+      <gliederungseinheit>
+        <gliederungskennzahl>010</gliederungskennzahl>
+        <gliederungsbez>I.</gliederungsbez>
+        <gliederungstitel>Die Grundrechte</gliederungstitel>
+      </gliederungseinheit>
+    </metadaten>
+    <textdaten>
+      <text>
+        <Content>
+          <P>(1) Die Würde des Menschen ist unantastbar. Sie zu achten und zu schützen ist Verpflichtung aller staatlichen Gewalt.</P>
+          <P>(2) Das Deutsche Volk bekennt sich darum zu unverletzlichen und unveräußerlichen Menschenrechten als Grundlage jeder menschlichen Gemeinschaft, des Friedens und der Gerechtigkeit in der Welt.</P>
+          <P>(3) Die nachfolgenden Grundrechte binden Gesetzgebung, vollziehende Gewalt und Rechtsprechung als unmittelbar geltendes Recht.</P>
+        </Content>
+      </text>
+    </textdaten>
+  </norm>
+  <norm builddate="20260101120000" doknr="BJNR000010949BJNE000200314">
+    <metadaten>
+      <jurabk>GG</jurabk>
+      <enbez>Art 2</enbez>
+      <titel/>
+      <gliederungseinheit>
+        <gliederungskennzahl>010</gliederungskennzahl>
+        <gliederungsbez>I.</gliederungsbez>
+        <gliederungstitel>Die Grundrechte</gliederungstitel>
+      </gliederungseinheit>
+    </metadaten>
+    <textdaten>
+      <text>
+        <Content>
+          <P>(1) Jeder hat das Recht auf die freie Entfaltung seiner Persönlichkeit, soweit er nicht die Rechte anderer verletzt und nicht gegen die verfassungsmäßige Ordnung oder das Sittengesetz verstößt.</P>
+          <P>(2) Jeder hat das Recht auf Leben und körperliche Unversehrtheit. Die Freiheit der Person ist unverletzlich. In diese Rechte darf nur auf Grund eines Gesetzes eingegriffen werden.</P>
+        </Content>
+      </text>
+    </textdaten>
+  </norm>
+</dokumente>
