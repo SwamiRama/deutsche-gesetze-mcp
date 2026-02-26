@@ -19,6 +19,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Build law database
+        run: |
+          uv sync --no-dev
+          uv run python scripts/update_laws.py
+        env:
+          GESETZE_DATABASE_PATH: ./gesetze.db
+          GESETZE_DATA_DIR: ./data
+        timeout-minutes: 15
+
       - uses: docker/setup-buildx-action@v3
 
       - uses: docker/login-action@v3

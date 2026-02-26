@@ -11,11 +11,6 @@ COPY src/ src/
 COPY scripts/ scripts/
 RUN uv sync --no-dev --frozen 2>/dev/null || uv sync --no-dev
 
-# Download all laws and build the SQLite database at build time
-ENV PATH="/build/.venv/bin:$PATH" PYTHONPATH="/build/src"
-ENV GESETZE_DATABASE_PATH=/build/gesetze.db GESETZE_DATA_DIR=/build/data
-RUN python scripts/update_laws.py
-
 
 FROM python:3.12-slim AS production
 
@@ -24,8 +19,8 @@ RUN groupadd -g 1001 mcp && useradd -u 1001 -g mcp -m -s /bin/sh mcp
 COPY --from=builder --chown=mcp:mcp /build/.venv /app/.venv
 COPY --from=builder --chown=mcp:mcp /build/src /app/src
 COPY --from=builder --chown=mcp:mcp /build/scripts /app/scripts
-COPY --from=builder --chown=mcp:mcp /build/gesetze.db /app/gesetze.db
 COPY --chown=mcp:mcp docker/entrypoint.sh /app/entrypoint.sh
+COPY --chown=mcp:mcp gesetze.db /app/gesetze.db
 
 RUN mkdir -p /data /tmp && chown mcp:mcp /data /tmp
 
