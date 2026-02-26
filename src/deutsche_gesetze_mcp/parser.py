@@ -55,8 +55,18 @@ def _extract_text(element: etree._Element) -> str:
     return "\n".join(parts)
 
 
+def _safe_xml_parser() -> etree.XMLParser:
+    """Create an XML parser with XXE and entity expansion disabled."""
+    return etree.XMLParser(
+        resolve_entities=False,
+        no_network=True,
+        dtd_validation=False,
+        load_dtd=False,
+    )
+
+
 def parse_law_xml(xml_path: Path, slug: str) -> ParsedLaw:
-    tree = etree.parse(str(xml_path))  # noqa: S320
+    tree = etree.parse(str(xml_path), parser=_safe_xml_parser())  # noqa: S320
     root = tree.getroot()
 
     norms = root.findall(".//norm")

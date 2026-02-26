@@ -1,7 +1,7 @@
 from __future__ import annotations
 
+import hmac
 import time
-from collections import defaultdict
 from typing import Any
 
 import structlog
@@ -21,16 +21,20 @@ class _RateLimiter:
     def __init__(self, max_requests: int, window_seconds: int) -> None:
         self.max_requests = max_requests
         self.window_seconds = window_seconds
-        self._requests: dict[str, list[float]] = defaultdict(list)
+        self._requests: dict[str, list[float]] = {}
 
     def is_allowed(self, key: str) -> bool:
         now = time.monotonic()
         cutoff = now - self.window_seconds
-        timestamps = self._requests[key]
-        self._requests[key] = [t for t in timestamps if t > cutoff]
-        if len(self._requests[key]) >= self.max_requests:
+        timestamps = self._requests.get(key, [])
+        active = [t for t in timestamps if t > cutoff]
+        if not active:
+            self._requests.pop(key, None)
+        if len(active) >= self.max_requests:
+            self._requests[key] = active
             return False
-        self._requests[key].append(now)
+        active.append(now)
+        self._requests[key] = active
         return True
 
 
@@ -51,7 +55,7 @@ def _create_auth_middleware(token: str) -> Any:
                 return JSONResponse({"error": "Missing or invalid Authorization header"}, status_code=401)
 
             provided_token = auth_header[7:]
-            if provided_token != token:
+            if not hmac.compare_digest(provided_token, token):
                 return JSONResponse({"error": "Invalid token"}, status_code=401)
 
             return await call_next(request)
