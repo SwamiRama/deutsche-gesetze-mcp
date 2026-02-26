@@ -19,16 +19,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: astral-sh/setup-uv@v5
-
-      - name: Build law database
+      - name: Download pre-built law database
         run: |
-          uv sync --no-dev
-          uv run python scripts/update_laws.py
+          gh release download data-v1 --pattern "gesetze.db" --repo "${{ github.repository }}"
+          ls -lh gesetze.db
         env:
-          GESETZE_DATABASE_PATH: ./gesetze.db
-          GESETZE_DATA_DIR: ./data
-        timeout-minutes: 15
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: docker/setup-buildx-action@v3
 
