@@ -31,9 +31,7 @@ def sample_zip() -> bytes:
 
 @respx.mock
 async def test_fetch_toc(toc_xml: bytes) -> None:
-    respx.get("https://www.gesetze-im-internet.de/gii-toc.xml").mock(
-        return_value=httpx.Response(200, content=toc_xml)
-    )
+    respx.get("https://www.gesetze-im-internet.de/gii-toc.xml").mock(return_value=httpx.Response(200, content=toc_xml))
     async with httpx.AsyncClient() as client:
         entries = await fetch_toc(client)
 
@@ -46,16 +44,12 @@ async def test_fetch_toc(toc_xml: bytes) -> None:
 
 @respx.mock
 async def test_download_all(tmp_path: Path, toc_xml: bytes, sample_zip: bytes) -> None:
-    respx.get("https://www.gesetze-im-internet.de/gii-toc.xml").mock(
-        return_value=httpx.Response(200, content=toc_xml)
-    )
+    respx.get("https://www.gesetze-im-internet.de/gii-toc.xml").mock(return_value=httpx.Response(200, content=toc_xml))
     # URLs from TOC use http://, but httpx follows redirects
     respx.get("http://www.gesetze-im-internet.de/bgb/xml.zip").mock(
         return_value=httpx.Response(200, content=sample_zip)
     )
-    respx.get("http://www.gesetze-im-internet.de/gg/xml.zip").mock(
-        return_value=httpx.Response(404)
-    )
+    respx.get("http://www.gesetze-im-internet.de/gg/xml.zip").mock(return_value=httpx.Response(404))
     respx.get("http://www.gesetze-im-internet.de/stgb/xml.zip").mock(
         return_value=httpx.Response(200, content=sample_zip)
     )
@@ -69,9 +63,7 @@ async def test_download_all(tmp_path: Path, toc_xml: bytes, sample_zip: bytes) -
 
 @respx.mock
 async def test_download_all_with_slug_filter(tmp_path: Path, toc_xml: bytes, sample_zip: bytes) -> None:
-    respx.get("https://www.gesetze-im-internet.de/gii-toc.xml").mock(
-        return_value=httpx.Response(200, content=toc_xml)
-    )
+    respx.get("https://www.gesetze-im-internet.de/gii-toc.xml").mock(return_value=httpx.Response(200, content=toc_xml))
     respx.get("http://www.gesetze-im-internet.de/bgb/xml.zip").mock(
         return_value=httpx.Response(200, content=sample_zip)
     )

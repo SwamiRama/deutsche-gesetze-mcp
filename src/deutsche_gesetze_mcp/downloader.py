@@ -20,7 +20,8 @@ async def fetch_toc(client: httpx.AsyncClient) -> list[LawEntry]:
     resp = await client.get(TOC_URL)
     resp.raise_for_status()
 
-    root = etree.fromstring(resp.content)  # noqa: S320
+    parser = etree.XMLParser(resolve_entities=False, no_network=True, dtd_validation=False, load_dtd=False)
+    root = etree.fromstring(resp.content, parser=parser)  # noqa: S320
     entries: list[LawEntry] = []
 
     for item in root.findall(".//item"):
@@ -59,18 +60,27 @@ async def download_law_zip(
             logger.warning("download_error", slug=entry.slug, error=str(e))
             return None
 
+        max_uncompressed_size = 50 * 1024 * 1024  # 50 MB limit per XML file
         try:
             with zipfile.ZipFile(BytesIO(resp.content)) as zf:
                 xml_files = [n for n in zf.namelist() if n.endswith(".xml")]
                 if not xml_files:
                     logger.warning("no_xml_in_zip", slug=entry.slug)
                     return None
+                info = zf.getinfo(xml_files[0])
+                if info.file_size > max_uncompressed_size:
+                    logger.warning("zip_entry_too_large", slug=entry.slug, size=info.file_size)
+                    return None
                 xml_content = zf.read(xml_files[0])
         except zipfile.BadZipFile:
             logger.warning("bad_zip", slug=entry.slug)
             return None
 
-        out_path = xml_dir / f"{entry.slug}.xml"
+        safe_name = Path(entry.slug).name
+        if not safe_name or safe_name.startswith("."):
+            logger.warning("unsafe_slug", slug=entry.slug)
+            return None
+        out_path = xml_dir / f"{safe_name}.xml"
         out_path.write_bytes(xml_content)
         return out_path
 
